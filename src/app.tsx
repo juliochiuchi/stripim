@@ -1,8 +1,9 @@
+import { RouterProvider } from "@tanstack/react-router";
+import { router } from '@/router'
+
 export const App = () => {
   return (
-    <>
-      <h1 className="">hello world</h1>
-    </>
+    <RouterProvider router={router} />
   )
 }
 
