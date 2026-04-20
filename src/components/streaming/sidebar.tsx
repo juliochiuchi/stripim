@@ -48,7 +48,7 @@ export function Sidebar({ className }: { className?: string }) {
             <div className="text-xs text-white/50">Streaming hub</div>
           </div>
         </Link>
-        <Badge className="bg-white/5 text-white/70 border-white/10">Mock</Badge>
+        <Badge className="bg-white/5 text-white/70 border-white/10">Jerico Films</Badge>
       </div>
 
       <Separator className="my-5 bg-white/10" />
@@ -61,11 +61,11 @@ export function Sidebar({ className }: { className?: string }) {
               ? isSearchRoute
               : isSearchRoute
                 ? false
-              : activeTab
-                ? activeTab === "for-you"
-                  ? it.key === "home"
-                  : activeTab === (it as any).search?.tab
-                : it.key === "home"
+                : activeTab
+                  ? activeTab === "for-you"
+                    ? it.key === "home"
+                    : activeTab === (it as any).search?.tab
+                  : it.key === "home"
 
           if (it.key === "discover") {
             return (

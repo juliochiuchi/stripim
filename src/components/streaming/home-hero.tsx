@@ -83,16 +83,16 @@ export function HomeHero({ stream, className }: { stream: Stream; className?: st
           </div>
           <div className="mt-3 space-y-2">
             <div className="flex items-center justify-between rounded-2xl bg-white/5 px-4 py-3">
-              <div className="text-sm font-semibold text-white/80">Ao vivo</div>
-              <div className="text-xs text-white/50">chat + discover</div>
+              <div className="text-sm font-semibold text-white/80">19/04 - 19h30</div>
+              <div className="text-xs text-white/50">Efésios 4.11</div>
             </div>
             <div className="flex items-center justify-between rounded-2xl bg-white/5 px-4 py-3">
-              <div className="text-sm font-semibold text-white/80">Vídeos</div>
-              <div className="text-xs text-white/50">rails + categorias</div>
+              <div className="text-sm font-semibold text-white/80">21/04 - 19h30</div>
+              <div className="text-xs text-white/50">Missöes</div>
             </div>
             <div className="flex items-center justify-between rounded-2xl bg-white/5 px-4 py-3">
-              <div className="text-sm font-semibold text-white/80">Criadores</div>
-              <div className="text-xs text-white/50">perfis mock</div>
+              <div className="text-sm font-semibold text-white/80">27/04 - 19h30</div>
+              <div className="text-xs text-white/50">Humildade</div>
             </div>
           </div>
         </div>

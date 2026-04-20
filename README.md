@@ -1,73 +1,81 @@
-# React + TypeScript + Vite
+# Stripim
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface de uma plataforma de streaming (estilo Twitch/YouTube/Netflix) feita para demonstrar qualidade de UI, organização de front-end e padrões de arquitetura — com dados mockados e camada de services pronta para trocar por uma API real.
 
-Currently, two official plugins are available:
+![Preview](./src/assets/printscreen-readme.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## O que tem aqui
 
-## React Compiler
+- Feed com trilhos (rails) e destaque (hero) para lives e vídeos publicados
+- Filtros por categoria, abas (para você / ao vivo / vídeos) e busca
+- Página de assistir com player embutido (YouTube) e layout de “watch”
+- Chat simulado (mock) para demonstrar experiência de live
+- Publicação de conteúdo (mock) com validação de formulário (Zod + React Hook Form)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Diferenciais técnicos
 
-## Expanding the ESLint configuration
+- Separação clara entre UI, hooks e services para facilitar integração com API real
+- Roteamento tipado e estrutura de páginas baseada em rotas
+- Componentes de UI consistentes (design system) com foco em ergonomia de dev
+- Validação de formulários com schema (Zod) e estados de loading/sucesso
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React + TypeScript
+- Vite
+- TanStack Router (roteamento tipado)
+- Tailwind CSS + shadcn/ui (Radix) para UI primitives
+- Zod + React Hook Form (validação e formulários)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Estrutura do projeto
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- `src/pages`: rotas e layouts (TanStack Router)
+- `src/components/streaming`: componentes de domínio (feed, cards, player, chat, etc.)
+- `src/components/ui`: componentes base (shadcn)
+- `src/services/streaming`: “API” mock e regras simples de listagem/criação
+- `src/hooks/streaming`: hooks para consumo dos services
+
+## Como rodar localmente
+
+Pré-requisitos: Node.js 18+.
+
+```bash
+npm ci
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+A aplicação sobe (por padrão) em `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Como navegar
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Home: `/`
+- Busca: `/search`
+- Assistir: `/watch/:id` (IDs existem no feed; também dá para publicar via “Publicar (mock)”)
+
+## Scripts úteis
+
+```bash
+npm run lint
+npm run build
+npm run preview
 ```
+
+## Dados e integrações
+
+O projeto roda 100% com dados mockados por padrão. A camada de services foi isolada para substituição por API real sem reescrever a UI.
+
+Existe um `.env` com placeholders para Supabase:
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
+
+## Próximos passos (ideias)
+
+- Autenticação e perfis de canal (Supabase/Auth ou backend próprio)
+- Persistência real de streams e chat (realtime)
+- Upload de thumbnails e organização de biblioteca
+- Testes (unit/integration) para services, hooks e páginas principais
+
+## Contato
+
+- Autor: Julio Araujo
