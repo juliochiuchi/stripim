@@ -1,6 +1,6 @@
 # Stripim
 
-Interface de uma plataforma de streaming (estilo Twitch/YouTube/Netflix) feita para demonstrar qualidade de UI, organização de front-end e padrões de arquitetura — com dados mockados e camada de services pronta para trocar por uma API real.
+Interface de uma plataforma de streaming (baseado em AppleTV/YouTube/Netflix) feita para demonstrar qualidade de UI, organização de front-end e padrões de arquitetura — com dados mockados e camada de services pronta para trocar por uma API real.
 
 ![Preview](./src/assets/printscreen-readme.png)
 
