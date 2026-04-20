@@ -117,8 +117,8 @@ export function Sidebar({ className }: { className?: string }) {
         <div className="flex flex-wrap gap-2">
           <Badge className="bg-white/5 text-white/70 border-white/10">Ao vivo</Badge>
           <Badge className="bg-white/5 text-white/70 border-white/10">Recomendado</Badge>
-          <Badge className="bg-white/5 text-white/70 border-white/10">Tecnologia</Badge>
-          <Badge className="bg-white/5 text-white/70 border-white/10">Games</Badge>
+          <Badge className="bg-white/5 text-white/70 border-white/10">Louvor e Adoração</Badge>
+          <Badge className="bg-white/5 text-white/70 border-white/10">Culto</Badge>
         </div>
       </div>
     </aside>

@@ -1,13 +1,13 @@
 export type StreamKind = "live" | "video"
 
 export type StreamCategory =
-  | "Games"
+  | "Adoração"
   | "Música"
-  | "Esportes"
-  | "Tech"
-  | "Educação"
-  | "Lifestyle"
-  | "Notícias"
+  | "Culto"
+  | "Louvor"
+  | "Ministração"
+  | "IPIM"
+  | "Church"
 
 export type Stream = {
   id: string

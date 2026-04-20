@@ -1,11 +1,11 @@
 import type { StreamCategory } from "@/types/streaming/stream"
 
 export const STREAM_CATEGORIES = [
-  "Games",
+  "Adoração",
   "Música",
-  "Esportes",
-  "Tech",
-  "Educação",
-  "Lifestyle",
-  "Notícias",
+  "Culto",
+  "Louvor",
+  "Ministração",
+  "IPIM",
+  "Church",
 ] as const satisfies StreamCategory[]
