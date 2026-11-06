@@ -37,7 +37,7 @@ export function AppShell({
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black/90" />
         </div>
 
-        <div className="relative mx-auto flex min-h-screen max-w-[1550px]">
+        <div className="relative mx-auto flex min-h-screen max-w-[1550px] 3xl:max-w-[1840px] 4xl:max-w-none">
           <Sidebar
             className="hidden lg:flex"
             collapsed={sidebarCollapsed}
