@@ -13,9 +13,20 @@ export function AppShell({
   children: React.ReactNode
   className?: string
 }) {
+  const [sidebarCollapsed, setSidebarCollapsed] = React.useState(
+    () => window.localStorage.getItem("stripim:sidebar-collapsed") !== "0",
+  )
+
   React.useEffect(() => {
     document.documentElement.classList.add("dark")
   }, [])
+
+  React.useEffect(() => {
+    window.localStorage.setItem(
+      "stripim:sidebar-collapsed",
+      sidebarCollapsed ? "1" : "0",
+    )
+  }, [sidebarCollapsed])
 
   return (
     <SpotlightProvider>
@@ -27,7 +38,11 @@ export function AppShell({
         </div>
 
         <div className="relative mx-auto flex min-h-screen max-w-[1550px]">
-          <Sidebar className="hidden lg:flex" />
+          <Sidebar
+            className="hidden lg:flex"
+            collapsed={sidebarCollapsed}
+            onToggle={() => setSidebarCollapsed((v) => !v)}
+          />
           <div className="relative z-10 flex min-w-0 flex-1 flex-col">
             <Topbar />
             <main className="min-w-0 flex-1 overflow-x-hidden px-4 pb-20 pt-6 lg:px-8 lg:pb-10">

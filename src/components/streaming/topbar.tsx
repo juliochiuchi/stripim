@@ -2,7 +2,6 @@ import * as React from "react"
 import { useNavigate, useRouterState } from "@tanstack/react-router"
 import { Search, Sparkles } from "lucide-react"
 
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import type { StreamCategory } from "@/types/streaming/stream"
 import { cn } from "@/lib/utils"
@@ -21,7 +20,6 @@ export function Topbar({ className }: { className?: string }) {
     category?: HomeCategory
   }
 
-  const tab = currentSearch.tab ?? "for-you"
   const q = currentSearch.q ?? ""
 
   return (
@@ -39,25 +37,6 @@ export function Topbar({ className }: { className?: string }) {
           <div className="text-sm font-semibold tracking-wide text-white/90">
             Stripim
           </div>
-        </div>
-
-        <div className="hidden lg:block">
-          <Tabs
-            value={tab}
-            onValueChange={(v) => {
-              const nextTab = v as HomeTab
-              void navigate({
-                to: "/",
-                search: { ...currentSearch, tab: nextTab },
-              })
-            }}
-          >
-            <TabsList className="bg-white/5 border-white/10 text-white/70">
-              <TabsTrigger value="for-you">Para você</TabsTrigger>
-              <TabsTrigger value="live">Ao vivo</TabsTrigger>
-              <TabsTrigger value="videos">Vídeos</TabsTrigger>
-            </TabsList>
-          </Tabs>
         </div>
 
         <form
