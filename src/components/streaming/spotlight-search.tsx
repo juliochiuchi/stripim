@@ -96,7 +96,7 @@ export function SpotlightProvider({ children }: { children: React.ReactNode }) {
                   type="button"
                   aria-label="Fechar"
                   onClick={() => setOpen(false)}
-                  className="grid size-10 place-items-center rounded-2xl border border-white/10 bg-white/5 text-white/70 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white/20"
+                  className="grid size-10 cursor-pointer place-items-center rounded-2xl border border-white/10 bg-white/5 text-white/70 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white/20"
                 >
                   <X className="size-4" />
                 </button>

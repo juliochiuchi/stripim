@@ -118,7 +118,7 @@ export function PublishDialog({ className }: { className?: string }) {
               <Label htmlFor="kind">Tipo</Label>
               <select
                 id="kind"
-                className="h-9 w-full rounded-xl border border-input bg-background/40 px-3 text-sm shadow-sm backdrop-blur focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/40"
+                className="h-9 w-full cursor-pointer rounded-xl border border-input bg-background/40 px-3 text-sm shadow-sm backdrop-blur focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/40"
                 {...form.register("kind")}
               >
                 <option value="video">Vídeo publicado</option>
@@ -129,7 +129,7 @@ export function PublishDialog({ className }: { className?: string }) {
               <Label htmlFor="category">Categoria</Label>
               <select
                 id="category"
-                className="h-9 w-full rounded-xl border border-input bg-background/40 px-3 text-sm shadow-sm backdrop-blur focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/40"
+                className="h-9 w-full cursor-pointer rounded-xl border border-input bg-background/40 px-3 text-sm shadow-sm backdrop-blur focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/40"
                 {...form.register("category")}
               >
                 {STREAM_CATEGORIES.map((c) => (

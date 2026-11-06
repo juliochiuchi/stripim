@@ -91,10 +91,11 @@ export function SearchPage({ q }: { q: string }) {
         </div>
       ) : (
         <div className="space-y-3">
-          {visible.map((s, idx) => (
-            <SearchResultRow key={s.id} stream={s} index={idx + 1} />
-          ))}
-
+          <div className="stagger-children space-y-3">
+            {visible.map((s, idx) => (
+              <SearchResultRow key={s.id} stream={s} index={idx + 1} />
+            ))}
+          </div>
           {canMore ? (
             <div className="pt-2">
               <Button
