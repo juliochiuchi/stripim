@@ -34,8 +34,8 @@ export function HomeHero({ stream, className }: { stream: Stream; className?: st
         <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_20%_20%,rgba(255,255,255,0.18),transparent_50%),linear-gradient(to_bottom,rgba(0,0,0,0.25),rgba(0,0,0,0.92))]" />
       </div>
 
-      <div className="relative grid gap-6 p-6 sm:p-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-        <div className="space-y-4">
+      <div className="relative p-6 sm:p-10">
+        <div className="max-w-3xl space-y-4">
           <div className="flex flex-wrap items-center gap-2">
             {stream.kind === "live" ? (
               <Badge variant="live" className="gap-1.5">
@@ -74,26 +74,6 @@ export function HomeHero({ stream, className }: { stream: Stream; className?: st
                 {formatTime(stream.live?.startedAtISO ?? stream.createdAtISO)}
               </div>
             ) : null}
-          </div>
-        </div>
-
-        <div className="rounded-[2rem] border border-white/10 bg-black/30 p-4 backdrop-blur">
-          <div className="text-xs font-medium tracking-wide text-white/55">
-            Próximos blocos
-          </div>
-          <div className="mt-3 space-y-2">
-            <div className="flex items-center justify-between rounded-2xl bg-white/5 px-4 py-3">
-              <div className="text-sm font-semibold text-white/80">19/04 - 19h30</div>
-              <div className="text-xs text-white/50">Efésios 4.11</div>
-            </div>
-            <div className="flex items-center justify-between rounded-2xl bg-white/5 px-4 py-3">
-              <div className="text-sm font-semibold text-white/80">21/04 - 19h30</div>
-              <div className="text-xs text-white/50">Missöes</div>
-            </div>
-            <div className="flex items-center justify-between rounded-2xl bg-white/5 px-4 py-3">
-              <div className="text-sm font-semibold text-white/80">27/04 - 19h30</div>
-              <div className="text-xs text-white/50">Humildade</div>
-            </div>
           </div>
         </div>
       </div>

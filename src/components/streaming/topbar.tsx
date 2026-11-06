@@ -40,7 +40,7 @@ export function Topbar({ className }: { className?: string }) {
         </div>
 
         <form
-          className="relative ml-auto w-full max-w-[520px]"
+          className="relative ml-auto w-full max-w-[520px] lg:mx-auto lg:max-w-[640px]"
           onSubmit={(e) => {
             e.preventDefault()
             const next = inputRef.current?.value?.trim() ?? ""

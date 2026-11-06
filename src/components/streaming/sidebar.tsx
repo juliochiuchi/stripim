@@ -3,21 +3,22 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Compass,
-  Flame,
+  // Flame,
   Home,
   Radio,
-  Sparkles,
 } from "lucide-react"
 
+import logoJericoFilms from "@/assets/jericofilms.jpg"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useSpotlight } from "@/components/streaming/spotlight-search"
+import { useStreams } from "@/hooks/streaming/use-streams"
 import { cn } from "@/lib/utils"
 
 const items = [
   { key: "home", label: "Início", icon: Home, to: "/", search: { tab: "for-you" } },
   { key: "live", label: "Ao vivo", icon: Radio, to: "/", search: { tab: "live" } },
-  { key: "trending", label: "Em alta", icon: Flame, to: "/", search: { tab: "videos" } },
+  // { key: "trending", label: "Em alta", icon: Flame, to: "/", search: { tab: "videos" } },
   { key: "discover", label: "Descobrir", icon: Compass },
 ] as const
 
@@ -33,7 +34,11 @@ export function Sidebar({
   const { location } = useRouterState()
   const activeTab = (location.search as { tab?: string }).tab
   const isSearchRoute = location.pathname.startsWith("/search")
+  const isWatchRoute = location.pathname.startsWith("/watch")
   const { openSpotlight } = useSpotlight()
+  const { data: liveStreams } = useStreams({ kind: "live" })
+  const liveId = liveStreams[0]?.id
+  const isLiveWatch = !!liveId && location.pathname === `/watch/${liveId}`
 
   return (
     <aside
@@ -50,8 +55,12 @@ export function Sidebar({
           title="Stripim"
           className={cn("group flex items-center gap-2 rounded-2xl px-2 py-1", collapsed && "px-0")}
         >
-          <span className="grid size-9 shrink-0 place-items-center rounded-2xl bg-white/5 ring-1 ring-white/10 shadow-sm">
-            <Sparkles className="size-4 text-white/80" />
+          <span className="grid size-9 shrink-0 place-items-center overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 shadow-sm">
+            <img
+              src={logoJericoFilms}
+              alt="Jerico Films"
+              className="size-9 object-cover"
+            />
           </span>
           {!collapsed ? (
             <div className="leading-tight">
@@ -62,10 +71,6 @@ export function Sidebar({
             </div>
           ) : null}
         </Link>
-
-        {!collapsed ? (
-          <Badge className="bg-white/5 text-white/70 border-white/10">Jerico Films</Badge>
-        ) : null}
       </div>
 
       <button
@@ -96,13 +101,15 @@ export function Sidebar({
           const isActive =
             it.key === "discover"
               ? isSearchRoute
-              : isSearchRoute
-                ? false
-                : activeTab
-                  ? activeTab === "for-you"
-                    ? it.key === "home"
-                    : activeTab === (it as any).search?.tab
-                  : it.key === "home"
+              : it.key === "live"
+                ? isLiveWatch
+                : isSearchRoute || isWatchRoute
+                  ? false
+                  : activeTab
+                    ? activeTab === "for-you"
+                      ? it.key === "home"
+                      : activeTab === (it as any).search?.tab
+                    : it.key === "home"
 
           const itemClass = cn(
             "group flex items-center gap-3 rounded-2xl px-3 py-2 text-sm text-white/70 transition-colors hover:bg-white/6 hover:text-white",
@@ -115,6 +122,36 @@ export function Sidebar({
               <Icon className="size-4" />
             </span>
           )
+
+          const label = !collapsed ? (
+            <span className="font-medium">{it.label}</span>
+          ) : null
+
+          if (it.key === "live") {
+            return liveId ? (
+              <Link
+                key={it.key}
+                to="/watch/$id"
+                params={{ id: liveId }}
+                title={collapsed ? it.label : undefined}
+                className={itemClass}
+              >
+                {iconBox}
+                {label}
+              </Link>
+            ) : (
+              <Link
+                key={it.key}
+                to="/"
+                search={{ tab: "live" }}
+                title={collapsed ? it.label : undefined}
+                className={itemClass}
+              >
+                {iconBox}
+                {label}
+              </Link>
+            )
+          }
 
           if (it.key === "discover") {
             return (
@@ -147,7 +184,7 @@ export function Sidebar({
               className={itemClass}
             >
               {iconBox}
-              {!collapsed ? <span className="font-medium">{it.label}</span> : null}
+              {label}
             </Link>
           )
         })}

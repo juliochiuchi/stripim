@@ -1,7 +1,6 @@
 import type * as React from "react"
 import { Film, Radio, Sparkles, Tag } from "lucide-react"
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { STREAM_CATEGORIES } from "@/constants/streaming/categories"
@@ -44,7 +43,7 @@ export function HomePage({
 
   return (
     <div className="space-y-10">
-      {featured ? <HomeHero stream={featured} /> : null}
+      {tab === "for-you" && featured ? <HomeHero stream={featured} /> : null}
 
       <div className="flex flex-col gap-4 rounded-[2rem] border border-white/10 bg-white/5 p-5 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
@@ -109,7 +108,7 @@ export function HomePage({
         </div>
       ) : (
         <div className="space-y-10">
-          {tab !== "videos" ? (
+          {tab === "live" ? (
             <StreamRail
               title="Ao vivo agora"
               subtitle="Entre nas lives e acompanhe o chat (mock)."
@@ -142,28 +141,6 @@ export function HomePage({
               )}
             </StreamRail>
           ) : null}
-
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-sm backdrop-blur">
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge className="bg-white/10 text-white/80 border-white/10">
-                Netflix rails
-              </Badge>
-              <Badge className="bg-white/10 text-white/80 border-white/10">
-                YouTube discover
-              </Badge>
-              <Badge className="bg-white/10 text-white/80 border-white/10">
-                Twitch live vibe
-              </Badge>
-              <Badge className="bg-white/10 text-white/80 border-white/10">
-                Conteúdo mockado
-              </Badge>
-            </div>
-            <div className="mt-3 text-sm leading-relaxed text-white/55">
-              O objetivo aqui é apresentar a plataforma ao cliente com uma UI moderna e
-              fluida. A camada de service já está isolada para trocar por API real
-              depois.
-            </div>
-          </div>
         </div>
       )}
     </div>
