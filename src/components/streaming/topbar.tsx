@@ -37,7 +37,7 @@ export function Topbar({ className }: { className?: string }) {
         className,
       )}
     >
-      <div className="mx-auto flex max-w-[1550px] items-center gap-3 px-4 py-3 3xl:max-w-[1840px] 4xl:max-w-none lg:px-8">
+      <div className="flex items-center gap-3 px-4 py-3 lg:px-8">
         <Link
           to="/"
           search={{ tab: "for-you" }}

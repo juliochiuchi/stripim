@@ -86,7 +86,7 @@ export function AdminShell({
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/70 to-black/90" />
       </div>
 
-      <div className="relative mx-auto flex min-h-screen max-w-[1550px] 3xl:max-w-[1840px] 4xl:max-w-none">
+      <div className="relative flex min-h-screen">
         <AdminSidebar user={user} className="hidden lg:flex" />
         <div className="flex min-w-0 flex-1 flex-col">
           <AdminMobileNav user={user} />
