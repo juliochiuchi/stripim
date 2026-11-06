@@ -3,18 +3,19 @@ import { Film, Radio, Sparkles, Tag } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { STREAM_CATEGORIES } from "@/constants/streaming/categories"
+import { Spinner } from "@/components/ui/spinner"
 import { HomeHero } from "@/components/streaming/home-hero"
 import { StreamCard } from "@/components/streaming/stream-card"
 import { StreamRail } from "@/components/streaming/stream-rail"
+import { useCategories } from "@/hooks/admin/use-categories"
 import { useStreams } from "@/hooks/streaming/use-streams"
-import type { StreamCategory, StreamKind } from "@/types/streaming/stream"
+import type { StreamKind } from "@/types/streaming/stream"
 import { cn } from "@/lib/utils"
 
 export type HomeSearch = {
   tab?: "for-you" | "live" | "videos"
   q?: string
-  category?: StreamCategory | "all"
+  category?: string
 }
 
 export function HomePage({
@@ -22,10 +23,12 @@ export function HomePage({
   onPickCategory,
 }: {
   search: HomeSearch
-  onPickCategory: (category: StreamCategory | "all") => void
+  onPickCategory: (category: string) => void
 }) {
   const tab = search.tab ?? "for-you"
   const category = search.category ?? "all"
+
+  const { categories, isLoading: isLoadingCategories } = useCategories()
 
   const kind: StreamKind | "all" =
     tab === "live" ? "live" : tab === "videos" ? "video" : "all"
@@ -70,21 +73,27 @@ export function HomePage({
             <Tag className="size-4" />
             Todas
           </Button>
-          {STREAM_CATEGORIES.map((c) => (
-            <Button
-              key={c}
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => onPickCategory(c)}
-              className={cn(
-                "border border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white",
-                category === c && "bg-white/10 text-white ring-1 ring-white/10",
-              )}
-            >
-              {c}
-            </Button>
-          ))}
+          {isLoadingCategories ? (
+            <span className="grid h-8 place-items-center px-2">
+              <Spinner className="size-4 text-white/50" />
+            </span>
+          ) : (
+            categories.map((c) => (
+              <Button
+                key={c.id}
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => onPickCategory(c.name)}
+                className={cn(
+                  "border border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white",
+                  category === c.name && "bg-white/10 text-white ring-1 ring-white/10",
+                )}
+              >
+                {c.name}
+              </Button>
+            ))
+          )}
         </div>
       </div>
 
@@ -126,10 +135,7 @@ export function HomePage({
           ) : null}
 
           {tab !== "live" ? (
-            <StreamRail
-              title="Vídeos publicados"
-              subtitle="Padrão YouTube: foco em títulos e consistência."
-            >
+            <StreamRail title="Vídeos publicados">
               {videos.length ? (
                 videos.map((s) => <StreamCard key={s.id} stream={s} />)
               ) : (

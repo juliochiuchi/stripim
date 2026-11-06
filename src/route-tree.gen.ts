@@ -9,19 +9,49 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './pages/__root'
+import { Route as AdminLayoutRouteImport } from './pages/admin/layout'
 import { Route as AppLayoutRouteImport } from './pages/_app/layout'
+import { Route as LoginIndexRouteImport } from './pages/login/index'
+import { Route as AdminIndexRouteImport } from './pages/admin/index'
 import { Route as AppIndexRouteImport } from './pages/_app/index'
+import { Route as AdminVideosIndexRouteImport } from './pages/admin/videos/index'
+import { Route as AdminCategoriesIndexRouteImport } from './pages/admin/categories/index'
 import { Route as AppSearchIndexRouteImport } from './pages/_app/search/index'
 import { Route as AppWatchIdRouteImport } from './pages/_app/watch/$id'
 
+const AdminLayoutRoute = AdminLayoutRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppLayoutRoute = AppLayoutRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRouteImport,
+} as any)
+const LoginIndexRoute = LoginIndexRouteImport.update({
+  id: '/login/',
+  path: '/login/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminLayoutRoute,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppLayoutRoute,
+} as any)
+const AdminVideosIndexRoute = AdminVideosIndexRouteImport.update({
+  id: '/videos/',
+  path: '/videos/',
+  getParentRoute: () => AdminLayoutRoute,
+} as any)
+const AdminCategoriesIndexRoute = AdminCategoriesIndexRouteImport.update({
+  id: '/categories/',
+  path: '/categories/',
+  getParentRoute: () => AdminLayoutRoute,
 } as any)
 const AppSearchIndexRoute = AppSearchIndexRouteImport.update({
   id: '/search/',
@@ -36,35 +66,83 @@ const AppWatchIdRoute = AppWatchIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
+  '/admin': typeof AdminLayoutRouteWithChildren
+  '/admin/': typeof AdminIndexRoute
+  '/login/': typeof LoginIndexRoute
   '/watch/$id': typeof AppWatchIdRoute
   '/search/': typeof AppSearchIndexRoute
+  '/admin/categories/': typeof AdminCategoriesIndexRoute
+  '/admin/videos/': typeof AdminVideosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AppIndexRoute
+  '/admin': typeof AdminIndexRoute
+  '/login': typeof LoginIndexRoute
   '/watch/$id': typeof AppWatchIdRoute
   '/search': typeof AppSearchIndexRoute
+  '/admin/categories': typeof AdminCategoriesIndexRoute
+  '/admin/videos': typeof AdminVideosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppLayoutRouteWithChildren
+  '/admin': typeof AdminLayoutRouteWithChildren
   '/_app/': typeof AppIndexRoute
+  '/admin/': typeof AdminIndexRoute
+  '/login/': typeof LoginIndexRoute
   '/_app/watch/$id': typeof AppWatchIdRoute
   '/_app/search/': typeof AppSearchIndexRoute
+  '/admin/categories/': typeof AdminCategoriesIndexRoute
+  '/admin/videos/': typeof AdminVideosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/watch/$id' | '/search/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/admin/'
+    | '/login/'
+    | '/watch/$id'
+    | '/search/'
+    | '/admin/categories/'
+    | '/admin/videos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/watch/$id' | '/search'
-  id: '__root__' | '/_app' | '/_app/' | '/_app/watch/$id' | '/_app/search/'
+  to:
+    | '/'
+    | '/admin'
+    | '/login'
+    | '/watch/$id'
+    | '/search'
+    | '/admin/categories'
+    | '/admin/videos'
+  id:
+    | '__root__'
+    | '/_app'
+    | '/admin'
+    | '/_app/'
+    | '/admin/'
+    | '/login/'
+    | '/_app/watch/$id'
+    | '/_app/search/'
+    | '/admin/categories/'
+    | '/admin/videos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
+  AdminLayoutRoute: typeof AdminLayoutRouteWithChildren
+  LoginIndexRoute: typeof LoginIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_app': {
       id: '/_app'
       path: ''
@@ -72,12 +150,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login/': {
+      id: '/login/'
+      path: '/login'
+      fullPath: '/login/'
+      preLoaderRoute: typeof LoginIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminLayoutRoute
+    }
     '/_app/': {
       id: '/_app/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppLayoutRoute
+    }
+    '/admin/videos/': {
+      id: '/admin/videos/'
+      path: '/videos'
+      fullPath: '/admin/videos/'
+      preLoaderRoute: typeof AdminVideosIndexRouteImport
+      parentRoute: typeof AdminLayoutRoute
+    }
+    '/admin/categories/': {
+      id: '/admin/categories/'
+      path: '/categories'
+      fullPath: '/admin/categories/'
+      preLoaderRoute: typeof AdminCategoriesIndexRouteImport
+      parentRoute: typeof AdminLayoutRoute
     }
     '/_app/search/': {
       id: '/_app/search/'
@@ -112,8 +218,26 @@ const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
   AppLayoutRouteChildren,
 )
 
+interface AdminLayoutRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
+  AdminVideosIndexRoute: typeof AdminVideosIndexRoute
+}
+
+const AdminLayoutRouteChildren: AdminLayoutRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+  AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
+  AdminVideosIndexRoute: AdminVideosIndexRoute,
+}
+
+const AdminLayoutRouteWithChildren = AdminLayoutRoute._addFileChildren(
+  AdminLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   AppLayoutRoute: AppLayoutRouteWithChildren,
+  AdminLayoutRoute: AdminLayoutRouteWithChildren,
+  LoginIndexRoute: LoginIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

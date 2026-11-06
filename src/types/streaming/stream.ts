@@ -15,7 +15,7 @@ export type Stream = {
   title: string
   channelName: string
   channelHandle: string
-  category: StreamCategory
+  category: string
   tags: string[]
   youtubeUrl: string
   createdAtISO: string
@@ -27,12 +27,14 @@ export type Stream = {
     publishedAtISO: string
     durationSec: number
     views: number
+    reference: string | null
+    description: string | null
   }
 }
 
 export type ListStreamsParams = {
   q?: string
   kind?: StreamKind | "all"
-  category?: StreamCategory | "all"
+  category?: string
 }
 

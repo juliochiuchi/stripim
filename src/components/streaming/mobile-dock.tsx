@@ -4,7 +4,7 @@ import { Flame, Home, Radio, Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const dock = [
-  { key: "home", label: "Início", icon: Home, to: "/", search: { tab: "for-you" } },
+  { key: "home", label: "Publicações", icon: Home, to: "/", search: { tab: "for-you" } },
   { key: "live", label: "Ao vivo", icon: Radio, to: "/", search: { tab: "live" } },
   { key: "trend", label: "Alta", icon: Flame, to: "/", search: { tab: "videos" } },
   { key: "search", label: "Buscar", icon: Search, to: "/", search: { tab: "for-you" } },

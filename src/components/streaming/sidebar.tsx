@@ -9,14 +9,14 @@ import {
 } from "lucide-react"
 
 import logoJericoFilms from "@/assets/jericofilms.jpg"
-import { Badge } from "@/components/ui/badge"
+import { MenuMeta } from "@/components/shared/menu-meta"
 import { Separator } from "@/components/ui/separator"
 import { useSpotlight } from "@/components/streaming/spotlight-search"
 import { useStreams } from "@/hooks/streaming/use-streams"
 import { cn } from "@/lib/utils"
 
 const items = [
-  { key: "home", label: "Início", icon: Home, to: "/", search: { tab: "for-you" } },
+  { key: "home", label: "Publicações", icon: Home, to: "/", search: { tab: "for-you" } },
   { key: "live", label: "Ao vivo", icon: Radio, to: "/", search: { tab: "live" } },
   // { key: "trending", label: "Em alta", icon: Flame, to: "/", search: { tab: "videos" } },
   { key: "discover", label: "Descobrir", icon: Compass },
@@ -65,9 +65,9 @@ export function Sidebar({
           {!collapsed ? (
             <div className="leading-tight">
               <div className="text-sm font-semibold tracking-wide text-white/90">
-                Stripim
+                Jericó Films
               </div>
-              <div className="text-xs text-white/50">Streaming hub</div>
+              <div className="text-xs text-white/50">Streaming</div>
             </div>
           ) : null}
         </Link>
@@ -191,21 +191,10 @@ export function Sidebar({
       </nav>
 
       {!collapsed ? (
-        <>
-          <Separator className="my-5 bg-white/10" />
-
-          <div className="space-y-2">
-            <div className="text-xs font-medium tracking-wide text-white/50">
-              Destaques de hoje
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Badge className="bg-white/5 text-white/70 border-white/10">Ao vivo</Badge>
-              <Badge className="bg-white/5 text-white/70 border-white/10">Recomendado</Badge>
-              <Badge className="bg-white/5 text-white/70 border-white/10">Louvor e Adoração</Badge>
-              <Badge className="bg-white/5 text-white/70 border-white/10">Culto</Badge>
-            </div>
-          </div>
-        </>
+        <div className="mt-auto space-y-4">
+          <Separator className="bg-white/10" />
+          <MenuMeta />
+        </div>
       ) : null}
     </aside>
   )

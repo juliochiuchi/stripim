@@ -17,10 +17,15 @@ export function StreamCard({
   const yt = resolveYoutube(stream.youtubeUrl)
   const thumb = yt?.thumbnailUrl
 
+  const views = stream.video?.views ?? 0
+  const viewers = stream.live?.viewers ?? 0
+  const durationSec = stream.video?.durationSec ?? 0
+  const hasMeta = stream.kind === "live" ? viewers > 0 : views > 0
+
   const meta =
     stream.kind === "live"
-      ? `${formatCompactNumber(stream.live?.viewers ?? 0)} assistindo`
-      : `${formatCompactNumber(stream.video?.views ?? 0)} views`
+      ? `${formatCompactNumber(viewers)} assistindo`
+      : `${formatCompactNumber(views)} views`
 
   const dateISO =
     stream.kind === "live"
@@ -60,16 +65,16 @@ export function StreamCard({
               </span>
               AO VIVO
             </Badge>
-          ) : (
+          ) : stream.category ? (
             <Badge className="bg-white/10 text-white/80 border-white/10">
               {stream.category}
             </Badge>
-          )}
+          ) : null}
         </div>
 
-        {stream.kind === "video" ? (
+        {stream.kind === "video" && durationSec > 0 ? (
           <div className="absolute bottom-3 right-3 rounded-xl bg-black/60 px-2 py-1 text-xs font-semibold text-white/90 ring-1 ring-white/10">
-            {formatDuration(stream.video?.durationSec ?? 0)}
+            {formatDuration(durationSec)}
           </div>
         ) : null}
       </div>
@@ -85,8 +90,12 @@ export function StreamCard({
           </span>
         </div>
         <div className="flex items-center gap-1 text-xs text-white/55">
-          <span>{meta}</span>
-          <Dot className="size-4" />
+          {hasMeta ? (
+            <>
+              <span>{meta}</span>
+              <Dot className="size-4" />
+            </>
+          ) : null}
           <span>{formatDate(dateISO)}</span>
         </div>
       </div>

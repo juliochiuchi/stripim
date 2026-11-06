@@ -1,27 +1,32 @@
+import * as React from "react"
 import { Link } from "@tanstack/react-router"
-import { Dot, Heart, Share2, Users } from "lucide-react"
+import { Check, Dot, Share2 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import { PlayerFrame } from "@/components/streaming/player-frame"
-import { StreamCard } from "@/components/streaming/stream-card"
-import { StreamRail } from "@/components/streaming/stream-rail"
+import {
+  LIVE_BANNER_DESCRIPTION,
+  LIVE_BANNER_SCHEDULE,
+  LIVE_BANNER_TITLE,
+} from "@/constants/streaming/live"
 import { useStream } from "@/hooks/streaming/use-stream"
-import { useStreams } from "@/hooks/streaming/use-streams"
-import { formatCompactNumber, formatDate, formatTime } from "@/utils/streaming/format"
-import { resolveYoutube } from "@/utils/streaming/youtube"
+import { formatDate } from "@/utils/streaming/format"
+import { resolveStreamEmbedUrl } from "@/utils/streaming/player"
 
 export function WatchPage({ id }: { id: string }) {
   const { data: stream, isLoading } = useStream(id)
-  const { data: related } = useStreams({
-    kind: "all",
-    category: stream?.category ?? "all",
-  })
+  const [copied, setCopied] = React.useState(false)
 
-  const yt = stream ? resolveYoutube(stream.youtubeUrl) : null
+  const embedUrl = stream ? resolveStreamEmbedUrl(stream) : null
+
+  const handleShare = async () => {
+    await navigator.clipboard.writeText(window.location.href)
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
     <div className="space-y-10">
@@ -31,8 +36,8 @@ export function WatchPage({ id }: { id: string }) {
             <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5">
               <Skeleton className="aspect-video rounded-none bg-white/10" />
             </div>
-          ) : stream && yt ? (
-            <PlayerFrame embedUrl={yt.embedUrl} title={stream.title} />
+          ) : stream && embedUrl ? (
+            <PlayerFrame embedUrl={embedUrl} title={stream.title} />
           ) : (
             <Card className="border-white/10 bg-white/5 backdrop-blur">
               <CardHeader>
@@ -67,38 +72,43 @@ export function WatchPage({ id }: { id: string }) {
               </div>
 
               <h1 className="text-balance text-xl font-semibold leading-tight tracking-[-0.01em] text-white/90 sm:text-2xl">
-                {stream.title}
+                {stream.kind === "live" ? LIVE_BANNER_TITLE : stream.title}
               </h1>
+
+              {stream.kind === "live" ? (
+                <p className="max-w-2xl text-sm leading-relaxed text-white/60">
+                  {LIVE_BANNER_DESCRIPTION}
+                </p>
+              ) : stream.video?.description ? (
+                <p className="max-w-2xl text-sm leading-relaxed text-white/60">
+                  {stream.video.description}
+                </p>
+              ) : null}
 
               <div className="flex flex-wrap items-center gap-2 text-sm text-white/55">
                 {stream.kind === "live" ? (
-                  <>
-                    <Users className="size-4" />
-                    <span>
-                      {formatCompactNumber(stream.live?.viewers ?? 0)} assistindo
-                    </span>
-                    <Dot className="size-4" />
-                    <span>
-                      desde {formatTime(stream.live?.startedAtISO ?? stream.createdAtISO)}
-                    </span>
-                  </>
+                  <span>{LIVE_BANNER_SCHEDULE}</span>
                 ) : (
                   <>
-                    <span>{formatCompactNumber(stream.video?.views ?? 0)} views</span>
-                    <Dot className="size-4" />
+                    {stream.video?.reference ? (
+                      <>
+                        <span>{stream.video.reference}</span>
+                        <Dot className="size-4" />
+                      </>
+                    ) : null}
                     <span>{formatDate(stream.video?.publishedAtISO ?? stream.createdAtISO)}</span>
                   </>
                 )}
               </div>
 
               <div className="flex flex-wrap items-center gap-2">
-                <Button className="gap-2">
+                {/* <Button className="gap-2">
                   <Heart className="size-4" />
                   Curtir
-                </Button>
-                <Button variant="secondary" className="gap-2">
-                  <Share2 className="size-4" />
-                  Compartilhar
+                </Button> */}
+                <Button className="gap-2" onClick={handleShare}>
+                  {copied ? <Check className="size-4" /> : <Share2 className="size-4" />}
+                  {copied ? "Link copiado" : "Compartilhar"}
                 </Button>
                 <div className="ml-auto flex flex-wrap items-center gap-2">
                   {stream.tags.slice(0, 5).map((t) => (
@@ -110,20 +120,10 @@ export function WatchPage({ id }: { id: string }) {
               </div>
             </div>
           ) : null}
-
-          <Separator className="bg-white/10" />
-
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-5 text-sm text-white/55 backdrop-blur">
-            <div className="font-semibold text-white/80">Descrição (mock)</div>
-            <div className="mt-2 leading-relaxed">
-              Aqui entram informações do vídeo, links e capítulos. Nesta versão de
-              apresentação, tudo é mockado e pronto para plugar numa API real.
-            </div>
-          </div>
         </div>
       </div>
 
-      {stream ? (
+      {/* {stream ? (
         <StreamRail
           title="Relacionado"
           subtitle="Mais conteúdos na mesma categoria (mock)."
@@ -135,7 +135,7 @@ export function WatchPage({ id }: { id: string }) {
               <StreamCard key={s.id} stream={s} />
             ))}
         </StreamRail>
-      ) : null}
+      ) : null} */}
     </div>
   )
 }

@@ -1,10 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { z } from "zod"
 
-import { STREAM_CATEGORIES } from "@/constants/streaming/categories"
 import { HomePage } from "@/pages/_app/-views/home-page"
-
-const CATEGORY_ENUM = ["all", ...STREAM_CATEGORIES] as const
 
 export const Route = createFileRoute('/_app/')({
   validateSearch: (search) =>
@@ -12,7 +9,7 @@ export const Route = createFileRoute('/_app/')({
       .object({
         tab: z.enum(["for-you", "live", "videos"]).optional(),
         q: z.string().trim().min(1).max(80).optional(),
-        category: z.enum(CATEGORY_ENUM).optional(),
+        category: z.string().trim().min(1).max(60).optional(),
       })
       .parse(search),
   component: Index,
@@ -27,8 +24,8 @@ function Index() {
       search={search}
       onPickCategory={(category) => {
         void navigate({
-          to: "/",
-          search: { ...search, category },
+          to: "/search",
+          search: { q: search.q, category },
         })
       }}
     />

@@ -10,7 +10,8 @@ const YT_ID_RE =
 export function resolveYoutube(input: string): YoutubeResolved | null {
   const match = input.match(YT_ID_RE)
   const id = match?.[1]
-  if (!id) return null
+  // "live_stream" é o placeholder de embed de canal ao vivo do YouTube, não um vídeo.
+  if (!id || id === "live_stream") return null
   return {
     id,
     embedUrl: `https://www.youtube.com/embed/${id}`,
