@@ -1,7 +1,8 @@
 import * as React from "react"
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router"
-import { LayoutDashboard, LogIn, MonitorPlay, Search, Sparkles } from "lucide-react"
+import { LayoutDashboard, LogIn, MonitorPlay, Search } from "lucide-react"
 
+import logoJericoFilms from "@/assets/jericofilms.jpg"
 import { Input } from "@/components/ui/input"
 import { buttonVariants } from "@/components/ui/button"
 import { getStoredUser } from "@/services/auth/auth.service"
@@ -37,14 +38,20 @@ export function Topbar({ className }: { className?: string }) {
       )}
     >
       <div className="mx-auto flex max-w-[1550px] items-center gap-3 px-4 py-3 lg:px-8">
-        <div className="flex shrink-0 items-center gap-2 lg:hidden">
-          <span className="grid size-9 place-items-center rounded-2xl bg-white/5 ring-1 ring-white/10">
-            <Sparkles className="size-4 text-white/80" />
+        <Link
+          to="/"
+          search={{ tab: "for-you" }}
+          title="Jericó Films"
+          className="flex shrink-0 items-center gap-2 lg:hidden"
+        >
+          <span className="grid size-9 shrink-0 place-items-center overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 shadow-sm">
+            <img
+              src={logoJericoFilms}
+              alt="Jericó Films"
+              className="size-9 object-cover"
+            />
           </span>
-          <div className="text-sm font-semibold tracking-wide text-white/90">
-            Stripim
-          </div>
-        </div>
+        </Link>
 
         <form
           className="relative w-full max-w-[520px] lg:max-w-[640px]"
