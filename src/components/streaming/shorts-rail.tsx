@@ -26,7 +26,7 @@ export function ShortsRail({
             Shorts
           </h2>
           <p className="text-sm text-white/50">
-            Os cortes verticais mais recentes do canal.
+            Mais recentes do canal
           </p>
         </div>
         <div className="flex gap-4 overflow-hidden pb-2">
@@ -47,7 +47,7 @@ export function ShortsRail({
     <>
       <StreamRail
         title="Shorts"
-        subtitle="Os cortes verticais mais recentes do canal."
+        subtitle="Mais recentes do canal"
         className={className}
       >
         {shorts.map((short) => (

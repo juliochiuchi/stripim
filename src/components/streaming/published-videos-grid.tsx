@@ -12,10 +12,12 @@ const PAGE_SIZE = 12
 export function PublishedVideosGrid({
   streams,
   title = "Vídeos publicados",
+  subtitle = "Mais recentes do canal",
   className,
 }: {
   streams: Stream[]
   title?: string
+  subtitle?: string
   className?: string
 }) {
   const [visibleCount, setVisibleCount] = React.useState(PAGE_SIZE)
@@ -55,9 +57,14 @@ export function PublishedVideosGrid({
 
   return (
     <section className={cn("space-y-3", className)}>
-      <h2 className="text-base font-semibold tracking-wide text-white/90">
-        {title}
-      </h2>
+      <div>
+        <h2 className="text-base font-semibold tracking-wide text-white/90">
+          {title}
+        </h2>
+        {subtitle ? (
+          <p className="text-sm text-white/50">{subtitle}</p>
+        ) : null}
+      </div>
 
       {streams.length ? (
         <>

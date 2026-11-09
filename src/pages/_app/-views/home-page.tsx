@@ -49,6 +49,57 @@ export function HomePage({
 
   const featured = live[0] ?? data[0]
 
+  const discoveryPanel = (
+    <div className="flex flex-col gap-4 rounded-[2rem] border border-white/10 bg-white/5 p-5 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+      <div className="space-y-1">
+        <div className="flex items-center gap-2 text-sm font-semibold text-white/85">
+          <Sparkles className="size-4 text-white/70" />
+          Descoberta inteligente
+        </div>
+        <div className="text-sm text-white/55">
+          Filtre por categoria e explore conteúdo publicado + ao vivo.
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2">
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => onPickCategory("all")}
+          className={cn(
+            "border border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white",
+            category === "all" && "bg-white/10 text-white ring-1 ring-white/10",
+          )}
+        >
+          <Tag className="size-4" />
+          Todas
+        </Button>
+        {isLoadingCategories ? (
+          <span className="grid h-8 place-items-center px-2">
+            <Spinner className="size-4 text-white/50" />
+          </span>
+        ) : (
+          categories.map((c) => (
+            <Button
+              key={c.id}
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => onPickCategory(c.name)}
+              className={cn(
+                "border border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white",
+                category === c.name && "bg-white/10 text-white ring-1 ring-white/10",
+              )}
+            >
+              {c.name}
+            </Button>
+          ))
+        )}
+      </div>
+    </div>
+  )
+
   return (
     <div className="space-y-10">
       {tab === "for-you" ? (
@@ -58,55 +109,6 @@ export function HomePage({
           <HomeHero stream={featured} />
         ) : null
       ) : null}
-
-      <div className="flex flex-col gap-4 rounded-[2rem] border border-white/10 bg-white/5 p-5 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 text-sm font-semibold text-white/85">
-            <Sparkles className="size-4 text-white/70" />
-            Descoberta inteligente
-          </div>
-          <div className="text-sm text-white/55">
-            Filtre por categoria e explore conteúdo publicado + ao vivo.
-          </div>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => onPickCategory("all")}
-            className={cn(
-              "border border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white",
-              category === "all" && "bg-white/10 text-white ring-1 ring-white/10",
-            )}
-          >
-            <Tag className="size-4" />
-            Todas
-          </Button>
-          {isLoadingCategories ? (
-            <span className="grid h-8 place-items-center px-2">
-              <Spinner className="size-4 text-white/50" />
-            </span>
-          ) : (
-            categories.map((c) => (
-              <Button
-                key={c.id}
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => onPickCategory(c.name)}
-                className={cn(
-                  "border border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white",
-                  category === c.name && "bg-white/10 text-white ring-1 ring-white/10",
-                )}
-              >
-                {c.name}
-              </Button>
-            ))
-          )}
-        </div>
-      </div>
 
       {isLoading ? (
         <div className="space-y-4">
@@ -129,25 +131,29 @@ export function HomePage({
       ) : (
         <div className="space-y-10">
           {tab === "live" ? (
-            <StreamRail
-              title="Ao vivo agora"
-              subtitle="Entre nas lives e acompanhe o chat (mock)."
-            >
-              {live.length ? (
-                live.map((s) => <StreamCard key={s.id} stream={s} />)
-              ) : (
-                <EmptyState
-                  icon={<Radio className="size-4" />}
-                  title="Nenhuma live encontrada"
-                  subtitle="Tente remover filtros ou mudar a busca."
-                />
-              )}
-            </StreamRail>
+            <>
+              <StreamRail
+                title="Ao vivo agora"
+                subtitle="Entre nas lives e acompanhe o chat (mock)."
+              >
+                {live.length ? (
+                  live.map((s) => <StreamCard key={s.id} stream={s} />)
+                ) : (
+                  <EmptyState
+                    icon={<Radio className="size-4" />}
+                    title="Nenhuma live encontrada"
+                    subtitle="Tente remover filtros ou mudar a busca."
+                  />
+                )}
+              </StreamRail>
+              {discoveryPanel}
+            </>
           ) : null}
 
           {tab !== "live" ? (
             <>
               <ShortsRail shorts={shorts} isLoading={isLoadingShorts} />
+              {discoveryPanel}
               <PublishedVideosGrid
                 key={`${search.q ?? ""}|${category}`}
                 streams={videos}
