@@ -4,7 +4,7 @@ import { Radio, Sparkles, Tag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Spinner } from "@/components/ui/spinner"
-import { HomeHero } from "@/components/streaming/home-hero"
+import { HomeHero, HomeHeroSkeleton } from "@/components/streaming/home-hero"
 import { PublishedVideosGrid } from "@/components/streaming/published-videos-grid"
 import { StreamCard } from "@/components/streaming/stream-card"
 import { StreamRail } from "@/components/streaming/stream-rail"
@@ -47,7 +47,13 @@ export function HomePage({
 
   return (
     <div className="space-y-10">
-      {tab === "for-you" && featured ? <HomeHero stream={featured} /> : null}
+      {tab === "for-you" ? (
+        isLoading ? (
+          <HomeHeroSkeleton />
+        ) : featured ? (
+          <HomeHero stream={featured} />
+        ) : null
+      ) : null}
 
       <div className="flex flex-col gap-4 rounded-[2rem] border border-white/10 bg-white/5 p-5 shadow-sm backdrop-blur sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">

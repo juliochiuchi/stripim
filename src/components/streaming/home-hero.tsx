@@ -3,6 +3,7 @@ import { Play, Radio } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Skeleton } from "@/components/ui/skeleton"
 import { PlayerFrame } from "@/components/streaming/player-frame"
 import {
   LIVE_BANNER_DESCRIPTION,
@@ -106,6 +107,34 @@ export function HomeHero({ stream, className }: { stream: Stream; className?: st
         )}
       >
         {info}
+      </div>
+    </section>
+  )
+}
+
+export function HomeHeroSkeleton({ className }: { className?: string }) {
+  return (
+    <section
+      aria-busy="true"
+      aria-label="Carregando destaque"
+      className={cn(
+        "relative flex overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 shadow-xl backdrop-blur-xl min-h-[20rem] sm:min-h-[22rem] lg:min-h-[24rem]",
+        className,
+      )}
+    >
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/5 to-transparent" />
+
+      <div className="relative flex w-full flex-col justify-center gap-4 p-6 sm:p-8">
+        <div className="flex flex-wrap items-center gap-2">
+          <Skeleton className="h-6 w-24 rounded-full bg-white/10" />
+          <Skeleton className="h-6 w-44 rounded-full bg-white/10" />
+        </div>
+        <Skeleton className="h-7 w-4/5 max-w-2xl bg-white/10 sm:h-9 lg:h-11" />
+        <Skeleton className="h-4 w-3/5 max-w-xl bg-white/10" />
+        <div className="flex flex-wrap items-center gap-3 pt-1">
+          <Skeleton className="h-9 w-36 rounded-lg bg-white/10" />
+          <Skeleton className="h-9 w-28 rounded-2xl bg-white/10" />
+        </div>
       </div>
     </section>
   )
