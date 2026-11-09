@@ -2,7 +2,8 @@ import { supabase } from "@/lib/supabase"
 import type { CreateVideoInput } from "@/schemas/admin/video"
 import type { Video } from "@/types/admin/video"
 
-const VIDEO_COLUMNS = "id, title, description, reference, link, publish_date, category_ids"
+const VIDEO_COLUMNS =
+  "id, title, description, reference, link, publish_date, category_ids, views, duration_sec, views_synced_at"
 
 type VideoRow = {
   id: string
@@ -12,6 +13,9 @@ type VideoRow = {
   link: string | null
   publish_date: string
   category_ids: string[] | null
+  views: number | null
+  duration_sec: number | null
+  views_synced_at: string | null
 }
 
 function mapVideo(row: VideoRow): Video {
@@ -23,6 +27,9 @@ function mapVideo(row: VideoRow): Video {
     link: row.link,
     publishDateISO: row.publish_date,
     categoryIds: row.category_ids ?? [],
+    views: row.views ?? 0,
+    durationSec: row.duration_sec ?? 0,
+    viewsSyncedAtISO: row.views_synced_at,
   }
 }
 

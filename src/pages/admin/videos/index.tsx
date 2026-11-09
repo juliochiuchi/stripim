@@ -19,13 +19,13 @@ import {
 import { useCategories } from "@/hooks/admin/use-categories"
 import { useVideos } from "@/hooks/admin/use-videos"
 import { deleteVideo } from "@/services/admin/videos.service"
-import { formatDate } from "@/utils/streaming/format"
+import { formatCompactNumber, formatDate } from "@/utils/streaming/format"
 
 export const Route = createFileRoute("/admin/videos/")({
   component: RouteComponent,
 })
 
-const COLUMNS = 5
+const COLUMNS = 6
 
 function RouteComponent() {
   const { videos, isLoading, error, refresh } = useVideos()
@@ -66,6 +66,7 @@ function RouteComponent() {
               <TableHead>Título</TableHead>
               <TableHead>Referência</TableHead>
               <TableHead>Publicação</TableHead>
+              <TableHead>Views</TableHead>
               <TableHead>Categorias</TableHead>
               <TableHead className="w-px text-right">Ações</TableHead>
             </TableRow>
@@ -110,6 +111,22 @@ function RouteComponent() {
                   </TableCell>
                   <TableCell className="whitespace-nowrap text-white/60">
                     {formatDate(video.publishDateISO)}
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {video.views > 0 ? (
+                      <div className="flex flex-col">
+                        <span className="text-white/80">
+                          {formatCompactNumber(video.views)}
+                        </span>
+                        {video.viewsSyncedAtISO ? (
+                          <span className="text-[11px] text-white/35">
+                            sync {formatDate(video.viewsSyncedAtISO)}
+                          </span>
+                        ) : null}
+                      </div>
+                    ) : (
+                      <span className="text-white/40">—</span>
+                    )}
                   </TableCell>
                   <TableCell>
                     {video.categoryIds.length === 0 ? (

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link } from "@tanstack/react-router"
-import { Check, Dot, Share2 } from "lucide-react"
+import { Check, Dot, Eye, Share2 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -13,7 +13,7 @@ import {
   LIVE_BANNER_TITLE,
 } from "@/constants/streaming/live"
 import { useStream } from "@/hooks/streaming/use-stream"
-import { formatDate } from "@/utils/streaming/format"
+import { formatCompactNumber, formatDate } from "@/utils/streaming/format"
 import { resolveStreamEmbedUrl } from "@/utils/streaming/player"
 
 export function WatchPage({ id }: { id: string }) {
@@ -90,13 +90,16 @@ export function WatchPage({ id }: { id: string }) {
                   <span>{LIVE_BANNER_SCHEDULE}</span>
                 ) : (
                   <>
-                    {stream.video?.reference ? (
+                    <span>{formatDate(stream.video?.publishedAtISO ?? stream.createdAtISO)}</span>
+                    {(stream.video?.views ?? 0) > 0 ? (
                       <>
-                        <span>{stream.video.reference}</span>
                         <Dot className="size-4" />
+                        <span className="inline-flex items-center gap-1.5">
+                          <Eye className="size-3.5" />
+                          {formatCompactNumber(stream.video?.views ?? 0)} visualizações
+                        </span>
                       </>
                     ) : null}
-                    <span>{formatDate(stream.video?.publishedAtISO ?? stream.createdAtISO)}</span>
                   </>
                 )}
               </div>

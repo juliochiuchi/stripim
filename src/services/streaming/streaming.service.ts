@@ -47,8 +47,8 @@ function mapVideoToStream(video: Video, categoryNameById: Map<string, string>): 
     createdAtISO: video.publishDateISO,
     video: {
       publishedAtISO: video.publishDateISO,
-      durationSec: 0,
-      views: 0,
+      durationSec: video.durationSec,
+      views: video.views,
       reference: video.reference,
       description: video.description,
     },

@@ -1,5 +1,6 @@
 import * as React from "react"
 
+import { refreshVideoStats } from "@/services/streaming/stats.service"
 import { getStreamById } from "@/services/streaming/streaming.service"
 import type { Stream } from "@/types/streaming/stream"
 
@@ -16,6 +17,23 @@ export function useStream(id: string) {
       if (!mounted) return
       setData(res)
       setIsLoading(false)
+
+      // Atualiza as estatísticas reais sob demanda ao abrir um vídeo publicado.
+      if (res?.kind !== "video") return
+      const stats = await refreshVideoStats(res.id)
+      if (!mounted || !stats) return
+      setData((prev) =>
+        prev?.video
+          ? {
+            ...prev,
+            video: {
+              ...prev.video,
+              views: stats.views,
+              durationSec: stats.durationSec,
+            },
+          }
+          : prev,
+      )
     })()
 
     return () => {

@@ -1,6 +1,8 @@
+import * as React from "react"
 import { Play } from "lucide-react"
 
 import { Skeleton } from "@/components/ui/skeleton"
+import { ShortViewer } from "@/components/streaming/short-viewer"
 import { StreamRail } from "@/components/streaming/stream-rail"
 import type { YoutubeShort } from "@/types/streaming/short"
 import { cn } from "@/lib/utils"
@@ -15,6 +17,7 @@ export function ShortsRail({
   isLoading?: boolean
   className?: string
 }) {
+  const [active, setActive] = React.useState<YoutubeShort | null>(null)
   if (isLoading) {
     return (
       <section className={cn("space-y-3", className)}>
@@ -41,26 +44,35 @@ export function ShortsRail({
   if (!shorts.length) return null
 
   return (
-    <StreamRail
-      title="Shorts"
-      subtitle="Os cortes verticais mais recentes do canal."
-      className={className}
-    >
-      {shorts.map((short) => (
-        <ShortCard key={short.id} short={short} />
-      ))}
-    </StreamRail>
+    <>
+      <StreamRail
+        title="Shorts"
+        subtitle="Os cortes verticais mais recentes do canal."
+        className={className}
+      >
+        {shorts.map((short) => (
+          <ShortCard key={short.id} short={short} onOpen={() => setActive(short)} />
+        ))}
+      </StreamRail>
+
+      <ShortViewer
+        short={active}
+        open={Boolean(active)}
+        onOpenChange={(open) => {
+          if (!open) setActive(null)
+        }}
+      />
+    </>
   )
 }
 
-function ShortCard({ short }: { short: YoutubeShort }) {
+function ShortCard({ short, onOpen }: { short: YoutubeShort; onOpen: () => void }) {
   return (
-    <a
-      href={short.url}
-      target="_blank"
-      rel="noopener noreferrer"
+    <button
+      type="button"
+      onClick={onOpen}
       title={short.title}
-      className="group relative block w-[160px] shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-sm backdrop-blur transition-colors hover:bg-white/7 hover:ring-1 hover:ring-white/10 sm:w-[180px]"
+      className="group relative block w-[160px] shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/5 text-left shadow-sm backdrop-blur transition-colors hover:bg-white/7 hover:ring-1 hover:ring-white/10 sm:w-[180px]"
     >
       <div className="relative aspect-[9/16] overflow-hidden">
         <img
@@ -83,6 +95,6 @@ function ShortCard({ short }: { short: YoutubeShort }) {
           </div>
         </div>
       </div>
-    </a>
+    </button>
   )
 }
