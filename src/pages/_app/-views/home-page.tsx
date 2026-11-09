@@ -1,10 +1,11 @@
 import type * as React from "react"
-import { Film, Radio, Sparkles, Tag } from "lucide-react"
+import { Radio, Sparkles, Tag } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Spinner } from "@/components/ui/spinner"
 import { HomeHero } from "@/components/streaming/home-hero"
+import { PublishedVideosGrid } from "@/components/streaming/published-videos-grid"
 import { StreamCard } from "@/components/streaming/stream-card"
 import { StreamRail } from "@/components/streaming/stream-rail"
 import { useCategories } from "@/hooks/admin/use-categories"
@@ -99,8 +100,8 @@ export function HomePage({
 
       {isLoading ? (
         <div className="space-y-4">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, i) => (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i}
                 className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
@@ -135,17 +136,10 @@ export function HomePage({
           ) : null}
 
           {tab !== "live" ? (
-            <StreamRail title="Vídeos publicados">
-              {videos.length ? (
-                videos.map((s) => <StreamCard key={s.id} stream={s} />)
-              ) : (
-                <EmptyState
-                  icon={<Film className="size-4" />}
-                  title="Nenhum vídeo encontrado"
-                  subtitle="Experimente outra categoria ou ajuste a busca."
-                />
-              )}
-            </StreamRail>
+            <PublishedVideosGrid
+              key={`${search.q ?? ""}|${category}`}
+              streams={videos}
+            />
           ) : null}
         </div>
       )}

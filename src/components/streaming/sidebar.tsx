@@ -1,7 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router"
 import {
-  ChevronsLeft,
-  ChevronsRight,
   Compass,
   // Flame,
   Home,
@@ -25,11 +23,9 @@ const items = [
 export function Sidebar({
   className,
   collapsed = false,
-  onToggle,
 }: {
   className?: string
   collapsed?: boolean
-  onToggle?: () => void
 }) {
   const { location } = useRouterState()
   const activeTab = (location.search as { tab?: string }).tab
@@ -48,7 +44,7 @@ export function Sidebar({
         className,
       )}
     >
-      <div className={cn("flex items-center", collapsed ? "flex-col gap-3" : "justify-between")}>
+      <div className={cn("flex items-center", collapsed && "justify-center")}>
         <Link
           to="/"
           search={{ tab: "for-you" }}
@@ -72,26 +68,6 @@ export function Sidebar({
           ) : null}
         </Link>
       </div>
-
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-label={collapsed ? "Expandir menu" : "Minimizar menu"}
-        title={collapsed ? "Expandir menu" : "Minimizar menu"}
-        className={cn(
-          "mt-4 flex h-9 w-full cursor-pointer items-center rounded-xl border border-white/10 bg-white/5 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white",
-          collapsed ? "justify-center gap-0 px-0" : "gap-2 px-3",
-        )}
-      >
-        {collapsed ? (
-          <ChevronsRight className="size-4" />
-        ) : (
-          <>
-            <ChevronsLeft className="size-4" />
-            <span className="font-medium">Minimizar</span>
-          </>
-        )}
-      </button>
 
       <Separator className="my-5 bg-white/10" />
 

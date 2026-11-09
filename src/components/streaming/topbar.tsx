@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router"
-import { LayoutDashboard, LogIn, MonitorPlay, Search } from "lucide-react"
+import { LayoutDashboard, LogIn, MonitorPlay, PanelLeftClose, PanelLeftOpen, Search } from "lucide-react"
 
 import logoJericoFilms from "@/assets/jericofilms.jpg"
 import { Input } from "@/components/ui/input"
@@ -14,7 +14,15 @@ type HomeCategory = "all" | StreamCategory
 
 const YOUTUBE_CHANNEL_URL = "https://youtube.com/ipimacaubal"
 
-export function Topbar({ className }: { className?: string }) {
+export function Topbar({
+  className,
+  sidebarCollapsed = false,
+  onToggleSidebar,
+}: {
+  className?: string
+  sidebarCollapsed?: boolean
+  onToggleSidebar?: () => void
+}) {
   const navigate = useNavigate()
   const { location } = useRouterState()
   const inputRef = React.useRef<HTMLInputElement | null>(null)
@@ -38,6 +46,23 @@ export function Topbar({ className }: { className?: string }) {
       )}
     >
       <div className="flex items-center gap-3 px-4 py-3 lg:px-8">
+        <button
+          type="button"
+          onClick={onToggleSidebar}
+          aria-label={sidebarCollapsed ? "Expandir menu" : "Minimizar menu"}
+          title={sidebarCollapsed ? "Expandir menu" : "Minimizar menu"}
+          className={cn(
+            buttonVariants({ variant: "ghost", size: "icon" }),
+            "hidden size-10 shrink-0 cursor-pointer border border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white lg:inline-flex",
+          )}
+        >
+          {sidebarCollapsed ? (
+            <PanelLeftOpen className="size-4" />
+          ) : (
+            <PanelLeftClose className="size-4" />
+          )}
+        </button>
+
         <Link
           to="/"
           search={{ tab: "for-you" }}

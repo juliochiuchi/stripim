@@ -14,7 +14,7 @@ export function AppShell({
   className?: string
 }) {
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(
-    () => window.localStorage.getItem("stripim:sidebar-collapsed") !== "0",
+    () => window.localStorage.getItem("stripim:sidebar-collapsed-v2") === "1",
   )
 
   React.useEffect(() => {
@@ -23,7 +23,7 @@ export function AppShell({
 
   React.useEffect(() => {
     window.localStorage.setItem(
-      "stripim:sidebar-collapsed",
+      "stripim:sidebar-collapsed-v2",
       sidebarCollapsed ? "1" : "0",
     )
   }, [sidebarCollapsed])
@@ -38,13 +38,12 @@ export function AppShell({
         </div>
 
         <div className="relative flex min-h-screen">
-          <Sidebar
-            className="hidden lg:flex"
-            collapsed={sidebarCollapsed}
-            onToggle={() => setSidebarCollapsed((v) => !v)}
-          />
+          <Sidebar className="hidden lg:flex" collapsed={sidebarCollapsed} />
           <div className="relative z-10 flex min-w-0 flex-1 flex-col">
-            <Topbar />
+            <Topbar
+              sidebarCollapsed={sidebarCollapsed}
+              onToggleSidebar={() => setSidebarCollapsed((v) => !v)}
+            />
             <main className="min-w-0 flex-1 overflow-x-hidden px-4 pb-20 pt-6 lg:px-8 lg:pb-10">
               {children}
             </main>
