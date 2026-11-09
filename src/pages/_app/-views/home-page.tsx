@@ -6,10 +6,12 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Spinner } from "@/components/ui/spinner"
 import { HomeHero, HomeHeroSkeleton } from "@/components/streaming/home-hero"
 import { PublishedVideosGrid } from "@/components/streaming/published-videos-grid"
+import { ShortsRail } from "@/components/streaming/shorts-rail"
 import { StreamCard } from "@/components/streaming/stream-card"
 import { StreamRail } from "@/components/streaming/stream-rail"
 import { useCategories } from "@/hooks/admin/use-categories"
 import { useStreams } from "@/hooks/streaming/use-streams"
+import { useYoutubeShorts } from "@/hooks/streaming/use-youtube-shorts"
 import type { StreamKind } from "@/types/streaming/stream"
 import { cn } from "@/lib/utils"
 
@@ -39,6 +41,8 @@ export function HomePage({
     kind,
     category,
   })
+
+  const { shorts, isLoading: isLoadingShorts } = useYoutubeShorts()
 
   const live = data.filter((s) => s.kind === "live")
   const videos = data.filter((s) => s.kind === "video")
@@ -142,10 +146,13 @@ export function HomePage({
           ) : null}
 
           {tab !== "live" ? (
-            <PublishedVideosGrid
-              key={`${search.q ?? ""}|${category}`}
-              streams={videos}
-            />
+            <>
+              <ShortsRail shorts={shorts} isLoading={isLoadingShorts} />
+              <PublishedVideosGrid
+                key={`${search.q ?? ""}|${category}`}
+                streams={videos}
+              />
+            </>
           ) : null}
         </div>
       )}
