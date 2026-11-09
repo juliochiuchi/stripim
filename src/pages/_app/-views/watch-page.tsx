@@ -33,11 +33,15 @@ export function WatchPage({ id }: { id: string }) {
       <div className="grid gap-6 lg:grid-cols-1 lg:items-start">
         <div className="space-y-5">
           {isLoading ? (
-            <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5">
+            <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 lg:max-w-[calc((100vh-9rem)*16/9)]">
               <Skeleton className="aspect-video rounded-none bg-white/10" />
             </div>
           ) : stream && embedUrl ? (
-            <PlayerFrame embedUrl={embedUrl} title={stream.title} />
+            <PlayerFrame
+              embedUrl={embedUrl}
+              title={stream.title}
+              className="lg:max-w-[calc((100vh-9rem)*16/9)]"
+            />
           ) : (
             <Card className="border-white/10 bg-white/5 backdrop-blur">
               <CardHeader>
